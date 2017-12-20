@@ -1,0 +1,17 @@
+syntax = "proto3";
+package agentpb;
+
+option java_multiple_files = true;
+option java_package = "io.jiache.raft.rpc.agent";
+
+service AgentService {
+    rpc findSecretary(FindSecretaryRequest) returns (FindSecretaryResponse) {}
+}
+
+message FindSecretaryRequest {
+    uint64 number = 1;
+}
+
+message FindSecretaryResponse {
+    repeated string secretaryURLs = 1;
+}

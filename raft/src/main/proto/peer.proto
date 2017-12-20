@@ -1,0 +1,46 @@
+syntax = "proto3";
+package peerpb;
+
+option java_multiple_files = true;
+option java_package = "io.jiache.raft.rpc.peer";
+
+message PeerResponseHeader {
+    uint64 memberId = 2;
+    uint64 term = 3;
+}
+
+message Entry {
+    uint64 term = 1;
+    uint64 index = 2;
+    bytes key = 3;
+    bytes value = 4;
+}
+
+service PeerService {
+    rpc vote(VoteRequest) returns (VoteResponse) {}
+    rpc append(AppendRequest) returns (AppendResponse) {}
+}
+
+message VoteRequest {
+    uint64 term = 1;
+    uint64 candidateId = 2;
+    uint64 lastLogIndex = 3;
+    uint64 lastLogTerm = 4;
+
+}
+
+message VoteResponse {
+    PeerResponseHeader header = 1;
+    bool granted = 2;
+}
+
+message AppendRequest {
+    uint64 term = 1;
+    uint64 prevLogIndex = 2;
+    repeated Entry entries = 3;
+}
+
+message AppendResponse {
+    PeerResponseHeader header = 1;
+    uint64 lastIndex = 2;
+}
